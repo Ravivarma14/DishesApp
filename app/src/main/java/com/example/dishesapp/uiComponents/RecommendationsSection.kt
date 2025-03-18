@@ -85,7 +85,7 @@ fun DishItemCard(dish: Dish, isSelected: Boolean= false,onClick: () -> Unit) {
         Column(
             modifier = Modifier
                 .wrapContentHeight()
-                .verticalScroll(rememberScrollState())
+//                .verticalScroll(rememberScrollState())
         ) {
             Box {
                 // Dish Image
@@ -356,7 +356,7 @@ fun ScheduleCookingBottomSheet(
 fun TimePickerColumn(numbers: List<Int>, selected: Int, onSelect: (Int) -> Unit) {
     val listState = rememberLazyListState()
 
-    // 🔹 Scroll to the selected item when Composable is recomposed
+    // Scroll to the selected item when Composable is recomposed
     LaunchedEffect(selected) {
         val index = numbers.indexOf(selected)
         if (index != -1) {

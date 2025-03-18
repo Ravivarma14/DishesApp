@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dishesapp.R
 
-@Composable
+/*@Composable
 fun BottomCardsSection() {
     Row(
         modifier = Modifier
@@ -52,7 +53,37 @@ fun BottomCardsSection() {
             ,true
         )
     }
+}*/
+
+
+@Composable
+fun BottomCardsSection() {
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 5.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
+//        contentPadding = PaddingValues(horizontal = 16.dp)
+    ) {
+        item {
+            BottomCard(
+                title = "Explore All Dishes",
+                backgroundImage = R.drawable.rice,
+                false
+            )
+        }
+
+        item {
+            BottomCard(
+                title = "Confused What to Cook?",
+                backgroundImage = R.drawable.backgorundbtn,
+                true
+            )
+        }
+    }
 }
+
+
 @Composable
 fun BottomCard(
     title: String,
@@ -71,42 +102,44 @@ fun BottomCard(
                 .padding(start = if(!isCenter) 16.dp else 0.dp, end= 0.dp)
         ) {
 
-            var horizontalArrangement= Arrangement.Start
-            if(isCenter) {
-                horizontalArrangement = Arrangement.Center
-
-                Image(
-                    painter = painterResource(id = backgroundImage),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
+            if (isCenter) {
+                Box(
                     modifier = Modifier.fillMaxSize()
-                )
+                ) {
+                    // Background Image
+                    Image(
+                        painter = painterResource(id = backgroundImage),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
 
                     Box(
                         modifier = Modifier
+                            .matchParentSize()
                             .background(Color(0xFFFFA726).copy(alpha = 0.6f))
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = horizontalArrangement
-                        ) {
-                            Text(
-                                text = title,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = Color.White
-                            )
-                        }
-                    }
+                    )
+
+                    // Centered Text
+                    Text(
+                        text = title,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
 
+            ///////////////////////
 
-                if(!isCenter) {
+
+
+            if(!isCenter) {
                     Row(
                         modifier = Modifier.fillMaxHeight(),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = horizontalArrangement
+                        horizontalArrangement = Arrangement.Start
                     ) {
                         Text(
                             text = title,

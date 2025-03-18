@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -70,7 +72,7 @@ import com.example.dishesapp.viewmodel.DishesViewModel
                 contentAlignment = Alignment.Center
             ) {
 
-                if(navigationItems[selectedItem].title.equals("Cook")){
+                /*if(navigationItems[selectedItem].title.equals("Cook")){
                     Column(horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -93,11 +95,54 @@ import com.example.dishesapp.viewmodel.DishesViewModel
 //                            Log.d("TAG", "DishesScreen: response: "+ dishesViewModel.dishes.value)
                             RecommendationsSection(viewModel = dishesViewModel)
                         }
+                        else {
+                            RecommendationsSection(viewModel = dishesViewModel)
+                        }
 
-                        RecommendationsSection(viewModel = dishesViewModel)
+                        BottomCardsSection()
 
                     }
+                }*/
+
+
+                if (navigationItems[selectedItem].title.equals("Cook")) {
+                    LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(vertical = 12.dp)
+                    ) {
+                        item {
+                            TopBar()
+                        }
+
+                        item {
+                            WhatsOnYourMindSection()
+                        }
+
+                        item {
+                            val dishesViewModel: DishesViewModel = viewModel()
+
+                            Log.d("TAG", "DishesScreen: before")
+                            dishesViewModel.fetchDishes()
+                            Log.d("TAG", "DishesScreen: after")
+
+                            val apiResponseReceived by dishesViewModel.apiResponseReceived.observeAsState(initial = false)
+
+                            if (apiResponseReceived) {
+                                Log.d("TAG", "DishesScreen: apiResponse: " + apiResponseReceived)
+                                RecommendationsSection(viewModel = dishesViewModel)
+                            } else {
+                                RecommendationsSection(viewModel = dishesViewModel)
+                            }
+                        }
+
+                        item {
+                            BottomCardsSection()
+                        }
+                    }
                 }
+
 
                 else {
                     Text(
